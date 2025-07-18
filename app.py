@@ -1,6 +1,7 @@
 import streamlit as st
 import fitz # PyMuPDF
 from utils.pdf_loader import extract_text_from_pdf
+from summarizer import summarize_text, explain_text_in_simple_terms
 
 # Title
 st.title("Research Paper Summarizer & Explainer Bot")
@@ -29,3 +30,19 @@ if uploaded_file:
     with open("extracted_text.txt", "w", encoding="utf-8") as f:
         f.write(extracted_text)
 
+
+# Summarization
+if uploaded_file:
+    st.subheader("GPT-4 Summary")
+    if st.button("Summarize"):
+        with st.spinner("Summarizing using GPT-4..."):
+            summary = summarize_text(extracted_text[:3000])  # limit tokens
+            st.success("Summary Generated!")
+            st.markdown(summary)
+
+    st.subheader("Explain in simple language")
+    if st.button("Explain"):
+        with st.spinner("Explaining in simple language..."):
+            explaination = explain_text_in_simple_terms(extracted_text[:3000])
+            st.success("Explaination Ready!")
+            st.markdown(explaination)
