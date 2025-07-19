@@ -2,6 +2,7 @@ import streamlit as st
 import fitz # PyMuPDF
 from utils.pdf_loader import extract_text_from_pdf
 from summarizer import summarize_text, explain_text_in_simple_terms
+from qa_engine import create_pinecone_index, ask_question
 
 # Title
 st.title("Research Paper Summarizer & Explainer Bot")
@@ -46,3 +47,17 @@ if uploaded_file:
             explaination = explain_text_in_simple_terms(extracted_text[:3000])
             st.success("Explaination Ready!")
             st.markdown(explaination)
+
+st.subheader("Ask Questions About the Paper")
+
+if uploaded_file:
+    if st.button("Index the Paper for Q&A"):
+        with st.spinner("Indexing the paper into vector DB.."):
+            create_pinecone_index(extracted_text[:10000]) # chunk large text
+            st.success("Paper indexed successfully!")
+
+    query = st.text_input("Ask a question:")
+    if query:
+        with st.spinner("Thinking..."):
+            answer = ask_question(query)
+            st.markdown(f"**Answer:** {answer}")
