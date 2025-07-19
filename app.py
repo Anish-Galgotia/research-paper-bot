@@ -2,7 +2,7 @@ import streamlit as st
 import fitz # PyMuPDF
 from utils.pdf_loader import extract_text_from_pdf
 from summarizer import summarize_text, explain_text_in_simple_terms
-from qa_engine import create_pinecone_index, ask_question
+from qa_engine import create_faiss_index, ask_question
 
 # Title
 st.title("Research Paper Summarizer & Explainer Bot")
@@ -10,13 +10,6 @@ st.write("Upload a PDF research paper and we'll extract its content")
 
 # File uploader
 uploaded_file = st.file_uploader("Choose a research paper (PDF only)", type="pdf")
-
-def extract_text_from_pdf(pdf_file):
-    doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    return text
 
 # Extract and show PDF text
 if uploaded_file:
@@ -48,15 +41,15 @@ if uploaded_file:
             st.success("Explaination Ready!")
             st.markdown(explaination)
 
-st.subheader("Ask Questions About the Paper")
+st.subheader("🤖 Ask Questions About the Paper")
 
 if uploaded_file:
     if st.button("Index the Paper for Q&A"):
-        with st.spinner("Indexing the paper into vector DB.."):
-            create_pinecone_index(extracted_text[:10000]) # chunk large text
-            st.success("Paper indexed successfully!")
+        with st.spinner("Indexing paper locally using FAISS..."):
+            create_faiss_index(extracted_text[:10000])
+            st.success("Paper indexed locally!")
 
-    query = st.text_input("Ask a question:")
+    query = st.text_input("Ask a question about the paper:")
     if query:
         with st.spinner("Thinking..."):
             answer = ask_question(query)

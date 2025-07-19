@@ -1,0 +1,18 @@
+Introduction to Artificial Intelligence (AI)
+Artificial Intelligence refers to the simulation of human intelligence in machines that
+are programmed to think and act like humans. AI is a broad field of computer science
+concerned with building smart machines capable of performing tasks that typically
+require human intelligence.
+Some common branches of AI include:
+- Machine Learning
+- Natural Language Processing
+- Robotics
+- Expert Systems
+Applications of Artificial Intelligence
+AI is used in a variety of fields today, including:
+1. Healthcare: AI is used to predict diseases, assist in surgeries, and manage patient
+data.
+2. Finance: Fraud detection, algorithmic trading, and customer service bots.
+3. Transportation: Self-driving cars and route optimization.
+4. Education: Personalized learning, grading automation, and tutoring systems.
+5. Entertainment: Recommendation systems in Netflix, YouTube, and Spotify.

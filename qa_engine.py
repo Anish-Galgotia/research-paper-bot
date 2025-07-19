@@ -1,40 +1,38 @@
 import os
-from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
-import pinecone
 
 load_dotenv()
 
 openai_key = os.getenv("OPENAI_API_KEY")
-pinecone_api_key = os.getenv("PINECONE_API_KEY")
-pinecone_env = os.getenv("PINECONE_ENV")
 
-# Init Pinecone
-pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
+# Define paths
+FAISS_INDEX_PATH = "faiss_index"
 
-# Embed + Index function
-def create_pinecone_index(text, index_name="paper-index"):
+# Build FAISS index from text
+def create_faiss_index(text):
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     docs = splitter.create_documents([text])
 
     embeddings = OpenAIEmbeddings(openai_api_key=openai_key)
 
-    if index_name not in pinecone.list_indexes():
-        Pinecone.from_documents(docs, embeddings, index_name=index_name)
-    else:
-        print("Index already exists. Skipping creation.")
+    vectorstore = FAISS.from_documents(docs, embeddings)
+    vectorstore.save_local(FAISS_INDEX_PATH)
 
-# Query function
-def ask_question(question, index_name="paper-index"):
+# Ask questions using FAISS
+def ask_question(question):
     embeddings = OpenAIEmbeddings(openai_api_key=openai_key)
-    docsearch = Pinecone.from_existing_index(index_name, embeddings)
+    vectorstore = FAISS.load_local(
+    FAISS_INDEX_PATH,
+    embeddings,
+    allow_dangerous_deserialization=True  
+    )
 
     llm = ChatOpenAI(openai_api_key=openai_key, model_name="gpt-4")
 
-    qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=docsearch.as_retriever())
-    result = qa_chain.run(question)
-    return result
+    qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=vectorstore.as_retriever())
+    return qa_chain.run(question)
