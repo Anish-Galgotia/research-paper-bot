@@ -70,4 +70,13 @@ if uploaded_file:
                 st.markdown(f"{abstract}")
                 st.caption(f"Similarity Score: {score:.2f}")
                 st.markdown("---")
-                
+
+st.sidebar.title("🛠️ Navigation")
+st.sidebar.info("""
+- Upload a PDF  
+- Summarize or Explain  
+- Ask Questions  
+- Find Related Papers
+""")
+
+
