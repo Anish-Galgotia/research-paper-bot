@@ -1,0 +1,11 @@
+title,abstract
+A Survey on Large Language Models,"This paper presents a comprehensive survey of large language models (LLMs), discussing their architectures, training methods, capabilities, limitations, and applications."
+Explainable AI for Healthcare,"We propose an interpretable machine learning framework for diagnostic decision-making in healthcare, combining accuracy with human-understandable reasoning."
+Financial Forecasting using Transformers,"Transformer-based architectures are explored to predict stock market trends. Experimental results show improved performance over traditional time series models."
+Low-Rank Adaptation in Fine-Tuning,"This work introduces a parameter-efficient fine-tuning approach for adapting LLMs using low-rank decomposition without modifying the base model weights."
+Detecting Fake News with BERT,"We fine-tune BERT on multiple fake news datasets to detect misinformation. Our model outperforms baseline classifiers in precision and recall."
+Climate Change and Machine Learning,"This review explores how machine learning techniques can be applied to model, mitigate, and understand the impact of climate change."
+Zero-Shot Text Classification with GPT-3,"We evaluate the zero-shot capabilities of GPT-3 on several text classification tasks and compare it against supervised baselines."
+Reinforcement Learning in Robotics,"A review of reinforcement learning techniques and their application in real-world robotics for adaptive and autonomous control."
+Vision Transformers in Medical Imaging,"This paper applies Vision Transformers to medical image classification tasks and benchmarks them against CNN-based models."
+Graph Neural Networks for Drug Discovery,"Graph-based deep learning models are proposed to predict molecular properties and interactions, accelerating drug discovery pipelines."

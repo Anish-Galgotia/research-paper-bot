@@ -3,6 +3,7 @@ import fitz # PyMuPDF
 from utils.pdf_loader import extract_text_from_pdf
 from summarizer import summarize_text, explain_text_in_simple_terms
 from qa_engine import create_faiss_index, ask_question
+from recommend import load_paper_corpus, embed_corpus, recommend_similar_papers
 
 # Title
 st.title("Research Paper Summarizer & Explainer Bot")
@@ -54,3 +55,19 @@ if uploaded_file:
         with st.spinner("Thinking..."):
             answer = ask_question(query)
             st.markdown(f"**Answer:** {answer}")
+
+st.subheader("Recomment Related Research Papers")
+
+if uploaded_file:
+    if st.button("Suggest Related Papers"):
+        with st.spinner("Finding similar papers..."):
+            df = load_paper_corpus("papers_db.csv")
+            model, embeddings = embed_corpus(df)
+            results = recommend_similar_papers(extracted_text[:3000], df, model, embeddings)
+
+            for title, abstract, score in results:
+                st.markdown(f"** {title}**")
+                st.markdown(f"{abstract}")
+                st.caption(f"Similarity Score: {score:.2f}")
+                st.markdown("---")
+                
